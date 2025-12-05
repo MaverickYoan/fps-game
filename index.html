@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jeu FPS d'entraînement au tir - Testez votre précision dans une arène 3D">
+    <title>FPS Training Arena</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Start Menu -->
+    <div id="startMenu" class="menu-overlay">
+        <div class="menu-content">
+            <h1>🎯 FPS TRAINING ARENA</h1>
+            <p class="subtitle">Entraînement au tir de précision</p>
+            <div class="instructions">
+                <h2>Contrôles</h2>
+                <ul>
+                    <li><strong>ZQSD / WASD</strong> - Déplacement</li>
+                    <li><strong>Souris / Clic droit</strong> - Viser</li>
+                    <li><strong>Clic gauche</strong> - Tirer</li>
+                    <li><strong>Espace</strong> - Sauter</li>
+                    <li><strong>R</strong> - Recharger</li>
+                    <li><strong>ESC</strong> - Pause</li>
+                </ul>
+            </div>
+            <button id="startButton" class="game-button">COMMENCER</button>
+        </div>
+    </div>
+
+    <!-- Pause Menu -->
+    <div id="pauseMenu" class="menu-overlay hidden">
+        <div class="menu-content">
+            <h1>⏸️ PAUSE</h1>
+            <button id="resumeButton" class="game-button">REPRENDRE</button>
+            <button id="restartButton" class="game-button secondary">RECOMMENCER</button>
+            <button id="mainMenuButton" class="game-button secondary">MENU PRINCIPAL</button>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="gameOverMenu" class="menu-overlay hidden">
+        <div class="menu-content">
+            <h1>🎯 PARTIE TERMINÉE</h1>
+            <div id="finalStats" class="stats-display"></div>
+            <button id="playAgainButton" class="game-button">REJOUER</button>
+        </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+        <!-- Crosshair -->
+        <div id="crosshair">
+            <div class="crosshair-line horizontal"></div>
+            <div class="crosshair-line vertical"></div>
+            <div class="crosshair-dot"></div>
+        </div>
+
+        <!-- Top HUD -->
+        <div class="hud-top">
+            <div class="hud-element">
+                <span class="hud-label">SCORE</span>
+                <span id="score" class="hud-value">0</span>
+            </div>
+            <div class="hud-element">
+                <span class="hud-label">CIBLES</span>
+                <span id="targets" class="hud-value">0/10</span>
+            </div>
+            <div class="hud-element">
+                <span class="hud-label">PRÉCISION</span>
+                <span id="accuracy" class="hud-value">100%</span>
+            </div>
+        </div>
+
+        <!-- Bottom HUD -->
+        <div class="hud-bottom">
+            <div class="health-container">
+                <span class="hud-label">SANTÉ</span>
+                <div class="health-bar-bg">
+                    <div id="healthBar" class="health-bar"></div>
+                </div>
+                <span id="healthValue" class="hud-value">100</span>
+            </div>
+            
+            <div class="ammo-container">
+                <span class="hud-label">MUNITIONS</span>
+                <div class="ammo-display">
+                    <span id="ammo" class="ammo-current">30</span>
+                    <span class="ammo-separator">/</span>
+                    <span id="ammoReserve" class="ammo-reserve">90</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hit Marker -->
+        <div id="hitMarker" class="hit-marker hidden">
+            <div class="hit-line hit-line-1"></div>
+            <div class="hit-line hit-line-2"></div>
+            <div class="hit-line hit-line-3"></div>
+            <div class="hit-line hit-line-4"></div>
+        </div>
+    </div>
+
+    <!-- Canvas for Three.js -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Game Scripts -->
+    <script src="audio.js"></script>
+    <script src="effects.js"></script>
+    <script src="player.js"></script>
+    <script src="weapon.js"></script>
+    <script src="targets.js"></script>
+    <script src="environment.js"></script>
+    <script src="ui.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

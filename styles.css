@@ -1,0 +1,388 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+}
+
+#gameCanvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    cursor: none;
+}
+
+/* Menu Overlays */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 40, 0.95) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.menu-overlay.hidden {
+    display: none;
+}
+
+.menu-content {
+    text-align: center;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    max-width: 600px;
+}
+
+.menu-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #aaa;
+    margin-bottom: 2rem;
+}
+
+.instructions {
+    text-align: left;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border-left: 4px solid #ff6b6b;
+}
+
+.instructions h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #ffd93d;
+}
+
+.instructions ul {
+    list-style: none;
+}
+
+.instructions li {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    color: #ddd;
+}
+
+.instructions strong {
+    color: #ff6b6b;
+    font-weight: 600;
+}
+
+.game-button {
+    padding: 1rem 3rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+    margin: 0.5rem;
+}
+
+.game-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(255, 107, 107, 0.6);
+}
+
+.game-button:active {
+    transform: translateY(-1px);
+}
+
+.game-button.secondary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.game-button.secondary:hover {
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+}
+
+.stats-display {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    font-size: 1.2rem;
+}
+
+.stats-display div {
+    margin: 0.5rem 0;
+}
+
+/* HUD */
+#hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+#hud.hidden {
+    display: none;
+}
+
+/* Crosshair */
+#crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+}
+
+.crosshair-line {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.crosshair-line.horizontal {
+    width: 20px;
+    height: 2px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.crosshair-line.vertical {
+    width: 2px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.crosshair-dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #ff6b6b;
+}
+
+/* Top HUD */
+.hud-top {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3rem;
+}
+
+.hud-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.hud-label {
+    font-size: 0.8rem;
+    color: #aaa;
+    letter-spacing: 2px;
+    margin-bottom: 0.3rem;
+}
+
+.hud-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffd93d;
+    text-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+}
+
+/* Bottom HUD */
+.hud-bottom {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3rem;
+    align-items: flex-end;
+}
+
+.health-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.health-bar-bg {
+    width: 200px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.health-bar {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b6b, #ff8e53);
+    transition: width 0.3s ease;
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+}
+
+.ammo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.ammo-display {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.ammo-current {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffd93d;
+    text-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+}
+
+.ammo-separator {
+    font-size: 1.5rem;
+    color: #666;
+}
+
+.ammo-reserve {
+    font-size: 1.5rem;
+    color: #aaa;
+}
+
+/* Hit Marker */
+.hit-marker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    pointer-events: none;
+}
+
+.hit-marker.hidden {
+    display: none;
+}
+
+.hit-line {
+    position: absolute;
+    width: 15px;
+    height: 3px;
+    background: #fff;
+    opacity: 0;
+    animation: hitMarkerAnim 0.2s ease-out;
+}
+
+.hit-line-1 {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.hit-line-2 {
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.hit-line-3 {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.hit-line-4 {
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+@keyframes hitMarkerAnim {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Damage Flash */
+@keyframes damageFlash {
+    0% {
+        box-shadow: inset 0 0 100px rgba(255, 0, 0, 0.5);
+    }
+    100% {
+        box-shadow: inset 0 0 0 rgba(255, 0, 0, 0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+}
+
+.damage-flash {
+    animation: damageFlash 0.3s ease-out;
+}
